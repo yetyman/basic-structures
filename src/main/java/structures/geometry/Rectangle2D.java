@@ -68,6 +68,38 @@ public class Rectangle2D {
         return contains(r.minX - epsilon, r.minY - epsilon) || contains(r.maxX + epsilon, r.maxY + epsilon) || r.contains(minX - epsilon, minY - epsilon) || r.contains(maxX + epsilon, maxY + epsilon);
     }
 
+    public Rectangle2D intersection(Rectangle2D r) {
+        double minX = Math.max(this.minX, r.minX);
+        double minY = Math.max(this.minY, r.minY);
+        double maxX = Math.min(this.maxX, r.maxX);
+        double maxY = Math.min(this.maxY, r.maxY);
+        return new Rectangle2D(minX, minY, maxX, maxY);
+    }
+    public Rectangle2D union(Rectangle2D r) {
+        double minX = Math.min(this.minX, r.minX);
+        double minY = Math.min(this.minY, r.minY);
+        double maxX = Math.max(this.maxX, r.maxX);
+        double maxY = Math.max(this.maxY, r.maxY);
+        return new Rectangle2D(minX, minY, maxX, maxY);
+    }
+    public Rectangle2D inflate(double amount) {
+        return new Rectangle2D(minX - amount, minY - amount, maxX + amount, maxY + amount);
+    }
+    public Rectangle2D deflate(double amount) {
+        return new Rectangle2D(minX + amount, minY + amount, maxX - amount, maxY - amount);
+    }
+    public Rectangle2D translate(double dx, double dy, double dz) {
+        return new Rectangle2D(minX + dx, minY + dy, maxX + dx, maxY + dy);
+    }
+    public Rectangle2D scale(double sx, double sy, double sz) {
+        return new Rectangle2D(minX * sx, minY * sy, maxX * sx, maxY * sy);
+    }
+    public Rectangle2D scale(double s) {
+        return new Rectangle2D(minX * s, minY * s, maxX * s, maxY * s);
+    }
+    public Rectangle2D scale(double sx, double sy, double sz, Point2D center) {
+        return new Rectangle2D(minX * sx + center.x * (1 - sx), minY * sy + center.y * (1 - sy), maxX * sx + center.x * (1 - sx), maxY * sy + center.y * (1 - sy));
+    }
     @Override
     public boolean equals(Object obj) {
         if (obj == this) return true;
